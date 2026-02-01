@@ -10,14 +10,14 @@ board = [[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]]
-board_without_mines = [[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
-                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]]
+board_without_mines =  [[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                        [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]]
 board_len = len(board)
 
 #listeler 
@@ -43,11 +43,22 @@ def pos(r,c):
         return False
     return (r-1)*board_len+c
 
+#kaçınıcı satır ve sütunda olduğunu öğrenme
 #mayınları yerleştirme
 mines_row = []
 mines_col = []
+def scan(row,col):
+    prob = []
+    prob.append(board[row+1][col])
+    prob.append(board[row-1][col])
+    prob.append(board[row][col+1])
+    prob.append(board[row][col-1])
+    prob.append(board[row+1][col+1])
+    prob.append(board[row-1][col-1])
+    prob.append(board[row+1][col-1])
+    prob.append(board[row-1][col+1])
+    print(prob)
 def place_mines(n=mine_num):
- 
     if n == 0:
         return False
     choose_row = random.choice(row_numbers)
@@ -62,6 +73,7 @@ def place_mines(n=mine_num):
     board[choose_row][choose_col] = 1
 for n in range(mine_num):
     place_mines()
-for i in board_without_mines:
+for i in board:
     print(i)
-print(mines_row,mines_col)
+print("")
+scan(2,2)
