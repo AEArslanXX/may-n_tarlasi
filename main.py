@@ -24,7 +24,7 @@ board = [[0, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0, 0, 0, 0],
          [0, 0, 0, 0, 0, 0, 0, 0]]
 back_board = [[0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0],
+              [0, 0, 1, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 0, 0, 0, 0],     #arkada çalışacak olan tahta.
               [0, 0, 0, 0, 0, 0, 0, 0],
@@ -81,29 +81,72 @@ def place_mines():
         #mayınları back_boarda yerleştirme.
         back_board[row_position][col_position] = 1
 
-
+#etrafındaki kareleri tarayan fonksiyon.
 def scan(position,board_=back_board):
     mines = []
     count_of_mines = int()
     position_row = learn_row(position) -1
     position_col = learn_col(position) -1
-    mines.append(board_[position_row+1][position_col])
-    mines.append(board_[position_row-1][position_col])
-    mines.append(board_[position_row][position_col+1])
-    mines.append(board_[position_row][position_col-1])
-    mines.append(board_[position_row+1][position_col+1])
-    mines.append(board_[position_row-1][position_col-1])
-    mines.append(board_[position_row+1][position_col-1])
-    mines.append(board_[position_row-1][position_col+1])
+
+    if position == 1:
+        mines.append(back_board[position_row][position_col+1]) #sağ
+        mines.append(back_board[position_row+1][position_col+1]) #sağ alt çapraz
+        mines.append(back_board[position_row+1][position_col]) #alt
+    elif position == 8:
+            mines.append(back_board[position_row+1][position_col]) #alt
+            mines.append(back_board[position_row+1][position_col-1]) #sol alt çapraz
+            mines.append(back_board[position_row][position_col-1]) #sol
+
+    elif position == 55:
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row-1][position_col+1]) #sağ üst çapraz
+        mines.append(back_board[position_row][position_col+1]) #sağ
+    elif position == 64:
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row][position_col-1]) #sol
+        mines.append(back_board[position_row-1][position_col-1]) #sol üst çapraz
+    elif position_col == 0 and (position != 1 or position != 55):
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row-1][position_col+1]) #sağ üst çapraz
+        mines.append(back_board[position_row][position_col+1]) #sağ
+        mines.append(back_board[position_row+1][position_col+1]) #sağ alt çapraz
+        mines.append(back_board[position_row+1][position_col]) #alt
+    elif position_col == 7 and (position !=8 or position !=64):
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row+1][position_col]) #alt
+        mines.append(back_board[position_row+1][position_col-1]) #sol alt çapraz
+        mines.append(back_board[position_row][position_col-1]) #sol
+        mines.append(back_board[position_row-1][position_col-1]) #sol üst çapraz
+    elif position_row == 0 and (position != 1 or position != 8):
+        mines.append(back_board[position_row+1][position_col+1]) #sağ alt çapraz
+        mines.append(back_board[position_row+1][position_col]) #alt
+        mines.append(back_board[position_row+1][position_col-1]) #sol alt çapraz
+        mines.append(back_board[position_row][position_col-1]) #sol
+        mines.append(back_board[position_row][position_col+1]) #sağ
+    elif position_row == 7 and (position != 55 or position != 64):
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row-1][position_col+1]) #sağ üst çapraz
+        mines.append(back_board[position_row][position_col+1]) #sağ
+        mines.append(back_board[position_row][position_col-1]) #sol
+        mines.append(back_board[position_row-1][position_col-1]) #sol üst çapraz
+    else:
+        mines.append(back_board[position_row-1][position_col]) #üst
+        mines.append(back_board[position_row-1][position_col+1]) #sağ üst çapraz
+        mines.append(back_board[position_row][position_col+1]) #sağ
+        mines.append(back_board[position_row+1][position_col+1]) #sağ alt çapraz
+        mines.append(back_board[position_row+1][position_col]) #alt
+        mines.append(back_board[position_row+1][position_col-1]) #sol alt çapraz
+        mines.append(back_board[position_row][position_col-1]) #sol
+        mines.append(back_board[position_row-1][position_col-1]) #sol üst çapraz
+
 
     count_of_mines = mines.count(1)
-    print(" ")
-    print(mines)
-    print(count_of_mines)
+    return [mines,count_of_mines]
 
-
+#mayınlar yerleşti
 for i in range(10):
     place_mines()
 
 print_board(back_board)
-scan(1)
+print("")
+print(scan(63))
