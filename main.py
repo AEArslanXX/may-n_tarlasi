@@ -10,6 +10,14 @@ board = [[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
          [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]]
+board_without_mines = [[0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0],
+                    [0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]]
 board_len = len(board)
 
 #listeler 
@@ -36,11 +44,16 @@ def pos(r,c):
     return (r-1)*board_len+c
 
 #mayınları yerleştirme
+mines_row = []
+mines_col = []
 def place_mines(n=mine_num):
+ 
     if n == 0:
         return False
     choose_row = random.choice(row_numbers)
+    mines_row.append(choose_row+1)
     choose_col = random.choice(col_numbers)
+    mines_col.append(choose_col+1)
     if(board[choose_row][choose_col] != 1):
         board[choose_row][choose_col] = 1
     else:
@@ -49,5 +62,6 @@ def place_mines(n=mine_num):
     board[choose_row][choose_col] = 1
 for n in range(mine_num):
     place_mines()
-for i in board:
+for i in board_without_mines:
     print(i)
+print(mines_row,mines_col)
