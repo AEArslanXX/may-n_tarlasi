@@ -84,7 +84,6 @@ def place_mines():
 #etrafındaki kareleri tarayan fonksiyon.
 def scan(position,board_=back_board):
     mines = []
-    count_of_mines = int()
     position_row = learn_row(position) -1
     position_col = learn_col(position) -1
 
@@ -139,14 +138,20 @@ def scan(position,board_=back_board):
         mines.append(back_board[position_row][position_col-1]) #sol
         mines.append(back_board[position_row-1][position_col-1]) #sol üst çapraz
 
-
     count_of_mines = mines.count(1)
-    return [mines,count_of_mines]
+    if 1 in mines:
+        return (False,mines,count_of_mines)
+    return (True,mines)
+def dig(position):
+    position_row = learn_row(position)
+    position_col = learn_col(position)
+    if position < 1 and position > board_len**2:
+        return False
+    if scan(position):
+        pass
 
-#mayınlar yerleşti
+#mayınları yerleştirme.
 for i in range(10):
     place_mines()
-
 print_board(back_board)
-print("")
-print(scan(63))
+print(scan(1))
